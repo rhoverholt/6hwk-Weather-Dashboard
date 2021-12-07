@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Dashboard</title>
+
+    <!-- Link Bootstrap's css -->
+    <link rel="stylesheet" 
+          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+
+  </head>
+  <body>
+    <header>
+      <h1 class="bkg-blue-fade clr-white txt-ctr">Weather Dashboard</h1>
+    </header>
+
+    <main class="container-fluid">
+      <div class="row">
+        <div class="col-3">
+          <form id="city-input">
+            <label for="city-name"><h1>Search for a City: </h1></label>
+            <input type="text" id="city-name" name="city-name" placeholder="Enter a city; a city, ST; or a zip code"><br>
+            <input type="submit" id="form-search" class="clr-white bkg-blue" value="Search">
+            <div id="border-line"></div>
+            <button type="button" data-city-id="" class="city-from-history">Atlanta</button>
+          </form>
+        </div>
+        <div class="col-9">
+          <div class="container-fluid">
+            <div class="row">
+              <div id="city-info" class="col-12">
+                <h1 id="city-info-hdr"></h1>
+                <p>Temp: <span id="city-temp"></span></p>
+                <p>Wind: <span id="city-wind"></span></p>
+                <p>Humidity: <span id="city-humidity"></span></p>
+                <p>UV Index: <span id="city-UV"></span></p>
+              </div>
+            </div>
+            <h2>5-Day Forecast:</h2>
+            <div class="row">
+              <div class="col forecast" id="day-1-forecast">
+                <h3 id="day-1-date"></h3>
+                <p>Temp: <span id="day-1-temp"></span></p>
+                <p>Wind: <span id="day-1-wind"></span></p>
+                <p>Humidity: <span id="day-1-humidity"></span></p>
+              </div>
+              <div class="col forecast" id="day-2-forecast">
+                <h3 id="day-2-date"></h3>
+                <p>Temp: <span id="day-2-temp"></span></p>
+                <p>Wind: <span id="day-2-wind"></span></p>
+                <p>Humidity: <span id="day-2-humidity"></span></p>
+              </div>
+              <div class="col forecast" id="day-3-forecast">
+                <h3 id="day-3-date"></h3>
+                <p>Temp: <span id="day-3-temp"></span></p>
+                <p>Wind: <span id="day-3-wind"></span></p>
+                <p>Humidity: <span id="day-3-humidity"></span></p>
+              </div>
+              <div class="col forecast" id="day-4-forecast">
+                <h3 id="day-4-date"></h3>
+                <p>Temp: <span id="day-4-temp"></span></p>
+                <p>Wind: <span id="day-4-wind"></span></p>
+                <p>Humidity: <span id="day-4-humidity"></span></p>
+              </div>
+              <div class="col forecast" id="day-5-forecast">
+                <h3 id="day-5-date"></h3>
+                <p>Temp: <span id="day-5-temp"></span></p>
+                <p>Wind: <span id="day-5-wind"></span></p>
+                <p>Humidity: <span id="day-5-humidity"></span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </main>
+    
+    <!-- Next two script links are for bootstrap 
+    <script src=”https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js” 
+        integrity=”sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo” 
+        crossorigin=”anonymous”>
+    </script>
+
+    <script src=”https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js” 
+        integrity=”sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/” 
+        crossorigin=”anonymous”>
+    </script>
+  -->
+
+    <script src="./assets/js/weather.js"></script>
+    <script src="./assets/js/script.js"></script>
+    
+  </body>
+</html>
