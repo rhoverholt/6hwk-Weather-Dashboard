@@ -4,37 +4,62 @@ const weatherUrlPrefix = "https://api.openweathermap.org/";
 
 //oneCall requires lat/lon to query
 //?lat=nnn&lon=nnn
-const oneCallUrl = "data/2.5/onecall";
+const oneCallUrl = weatherUrlPrefix + "data/2.5/onecall";
 const oneCallParams = "units=imperial&exclude=minutely,hourly" + apiKey;
 
-//forecast can use a variety of city; city,st; zip; city,st,country;
-//?q=
-const forecastUrl = "data/2.5/forecast";
-const forecastParams = "units=imperial" + apiKey;
+const geocodeUrl = weatherUrlPrefix + "geo/1.0/direct";
+const geocodeParams = "limit=5" + apiKey;
 
-const latLonTest = "?lat=40.12&lon=-96.66&exclude=minutely,hourly";
-const cityTest = "?q=Atlanta,ga,us&units=imperial";
 
-function callOneCallUrl(lat, lon, callbackFun) {
-    requestUrl = weatherUrlPrefix + oneCallUrl + `?lat=${lat}&lon=${lon}&${oneCallParams}`;
-    console.log(requestUrl);
+function getWeatherFromLatLon(cName, lat, lon, callbackFun, errorCallback) {
+    requestUrl = oneCallUrl + `?lat=${lat}&lon=${lon}&${oneCallParams}`;
+
     fetch(requestUrl)
 	.then (function (response) {
-		console.log(response.status);
+		if (response.status != 200) {
+			errorCallback("Weather currently unavailable.  Response Code: " + response.status);
+			return;
+		}
 		return (response.json());
 	})
 	.then (function (data) {
-		console.log(data);
-        callbackFun(data);
+		if (data != null) {callbackFun(data, cName)}
+		else {errorCallback("Weather returned empty data")}
 	});
 }
 
-function getWeatherInfo(city, callbackFun) {
-    return callOneCallUrl(40.12, -96.66, callbackFun);
-}
+function getWeatherFromCityName(cName, geoCallbackFun, callbackFun, errorCallback) {
 
-function testWeather(city) {
-    console.log(city);
+	// fetch the geocode info
+	requestUrl = geocodeUrl + "?q=" + cName + "&" + geocodeParams;
+
+	fetch(requestUrl)
+	.then (function (response) {
+		if (response.status != 200) {
+			errorCallback("Weather currently unavailable.  Geocoding Response Code: " + response.status);
+			return;
+		}
+		return (response.json());
+	})
+	.then (function (data) {
+		if (data != null) {geocodeCallback(data)}
+		else {errorCallback("Weather returned empty data")}
+	});
+
+	function geocodeCallback(data) {
+
+		if (data.length === 0) {
+			errorCallback("Invalid city entry");
+			return;
+		}
+
+		geoCallbackFun(data);
+		let lat = data[0].lat;
+		let lon = data[0].lon;
+		let cityName = `${data[0].name}, ${data[0].state}, ${data[0].country}`;
+
+		return getWeatherFromLatLon(cityName, lat, lon, callbackFun, errorCallback);
+	}
 }
 
 // requestUrl = forecastUrl + cityTest + apiKey;
