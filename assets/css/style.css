@@ -14,6 +14,7 @@
     color: white;
 }
 
+/*  Apply same general formatting to form inputs and the city buttons */
 input, .city-from-history {
     width: 100%;
     margin-bottom: 10px;
@@ -42,16 +43,19 @@ input, .city-from-history {
 img {
     background-color: rgb(22, 30, 80);    
 }
+
 .forecast {
     background-color: rgb(22, 30, 80);
     margin: 0px 15px;
     color: white;
 }
 
+/* Setup colors for UV Index */
 #city-UV {
     padding: 0px 5px;
     color: white;
 }
+
 .bg-green {
     background-color: green;
 }
