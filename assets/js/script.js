@@ -21,27 +21,63 @@ function createCityHistory(element) {
 		i = 0,
 		prevEl = document.getElementById("border-line");
 
+	// read localStorage into lStorage
+	let lStorage = [];
 	while (i < keys.length) {
 		if (keys[i].substring(0,5) === appID) {
-			let data = JSON.parse(localStorage.getItem(keys[i]));
-			let btnId = keys[i].substring(5).replace(/\s/g,"").replace(/,/g,"-");
-					
-			// ensure the button doesn't already exist before creating it
-			if (!historyIdList.includes(btnId)) {
-				
-				let newButton = document.createElement("button");
-				newButton.type = "button";
-				newButton.id = btnId;
-				newButton.classList.add("city-from-history");
-				newButton.textContent = keys[i].substring(5);
-				newButton.dataset.lat = data.cLat;
-				newButton.dataset.lon = data.cLon;
-
-				prevEl.parentNode.insertBefore(newButton,prevEl.nextSibling);
-			}
+			let stored = JSON.parse(localStorage.getItem(keys[i]));
+			stored.key = keys[i];
+			lStorage.push(stored);
 		}
 		i++;
 	}
+
+	// sort local storage to show the earliest first
+	lStorage.sort(dynamicSort("timestamp"));
+
+
+	i = 0;
+	while (i < lStorage.length) {
+
+		// Change, for example, "wthr-Altanta, Georgia, US" to "Atlanta-Georgia-US"
+		let btnId = lStorage[i].key.substring(5).replace(/\s/g,"").replace(/,/g,"-");
+				
+		// if the button already exists, ignore it for now //delete that and add it back here
+		if (!historyIdList.includes(btnId)) {
+		// 	deleteEl = document.getElementById(btnId);
+		// 	deleteEl.remove();
+		// }
+				
+			let newButton = document.createElement("button");
+			newButton.type = "button";
+			newButton.id = btnId;
+			newButton.classList.add("city-from-history");
+			newButton.textContent = lStorage[i].key.substring(5);
+			newButton.dataset.lat = lStorage[i].cLat;
+			newButton.dataset.lon = lStorage[i].cLon;
+
+			prevEl.parentNode.insertBefore(newButton,prevEl.nextSibling);
+		}
+		i++;
+	}
+	
+	function dynamicSort(property) {
+		var sortOrder = 1;
+	
+		if(property[0] === "-") {
+			sortOrder = -1;
+			property = property.substr(1);
+		}
+	
+		return function (a,b) {
+			if(sortOrder == -1){
+				return b[property].localeCompare(a[property]);
+			}else{
+				return a[property].localeCompare(b[property]);
+			}        
+		}
+	}
+
 }
 
 function processClick(event) {
@@ -62,6 +98,10 @@ function processClick(event) {
 	}
 
 	// When a historic city button was pressed:
+
+	// Erase anything in the form input field:
+	document.getElementById("city-name").value = "";
+
 	// - Get the city name from the innerText
 	var targetEl = document.getElementById(event.target.id);
 
@@ -74,8 +114,6 @@ function processClick(event) {
 
 function weatherOneCall_CallBack(data, cityName) {
 	// set current info
-
-	console.log(data);
 
 	cityNameEl = document.getElementById("city-info-hdr");
 	cityTempEl = document.getElementById("city-temp");
@@ -158,7 +196,9 @@ function cityName_Callback(data) {
 	searchName = `${appID}${data[0].name}, ${((data[0].state != undefined) ? data[0].state + ',' : "")} ${data[0].country}`;
 
 	if (localStorage.getItem(searchName)) {
-		errorMsg(`${searchName} is already in local storage`);
+		// errorMsg(`${searchName} is already in local storage`);
+		inputTextEl = document.getElementById("city-name");
+		inputTextEl.value = "";
 		return;
 	}
 
@@ -167,17 +207,27 @@ function cityName_Callback(data) {
 		cState : data[0].state,
 		cCountry : data[0].country,
 		cLat : data[0].lat,
-		cLon : data[0].lon
+		cLon : data[0].lon,
+		timestamp : moment()
 	}
 
+	// remove the text from the input field.
+	inputTextEl = document.getElementById("city-name");
+	inputTextEl.value = "";
+
+	// Add to local storage and display associate button
 	localStorage.setItem(searchName, JSON.stringify(cData));
 	createCityHistory(cityInputEl);
-};
+}
 
 function errorOneCall_CallBack (msg) {
-	console.log("One Call Error: " + msg);
+	msgEl = document.getElementById("modal-msg");
+	// modalEl = document.getElementById("errorModal");
+
+	msgEl.textContent = msg;
+	$("#errorModal").modal(); // I can't figure out how to do this without jQuery!
 }
 
 function errorMsg (msg) {
-	console.log(msg);
+	errorOneCall_CallBack(msg);
 }

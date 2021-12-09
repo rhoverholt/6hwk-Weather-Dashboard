@@ -56,7 +56,7 @@ function getWeatherFromCityName(cName, geoCallbackFun, callbackFun, errorCallbac
 		geoCallbackFun(data);
 		let lat = data[0].lat;
 		let lon = data[0].lon;
-		let cityName = `${data[0].name}, ${data[0].state}, ${data[0].country}`;
+		let cityName = `${data[0].name}, ${(data[0].state ? data[0].state + ',' : "")} ${data[0].country}`;
 
 		return getWeatherFromLatLon(cityName, lat, lon, callbackFun, errorCallback);
 	}

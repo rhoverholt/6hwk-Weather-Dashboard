@@ -17,12 +17,33 @@
       <h1 class="bkg-blue-fade clr-white txt-ctr">Weather Dashboard</h1>
     </header>
 
+    <!-- Modal -->
+<div id="errorModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Error Message</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="modal-msg"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
     <main class="container-fluid">
       <div class="row">
         <div class="col-3">
           <form id="city-input">
             <label for="city-name"><h1>Search for a City: </h1></label>
-            <input type="text" id="city-name" name="city-name" placeholder="Enter a city; a city, ST; or a zip code"><br>
+            <input type="text" id="city-name" name="city-name" placeholder="Enter a city here"><br>
             <input type="submit" id="form-search" class="clr-white bkg-blue" value="Search">
             <div id="border-line"></div>
           </form>
@@ -90,17 +111,13 @@
 
     </main>
     
-    <!-- Next two script links are for bootstrap ... if I use them...
-    <script src=”https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js” 
-        integrity=”sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo” 
-        crossorigin=”anonymous”>
-    </script>
+    <!-- Next two script links are for bootstrap ... if I use them... -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    
+    <!-- The above is required by the use of bootstrap's modal -->
 
-    <script src=”https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js” 
-        integrity=”sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/” 
-        crossorigin=”anonymous”>
-    </script>
-  -->
     <!-- This script file is for Moment.js -->
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
